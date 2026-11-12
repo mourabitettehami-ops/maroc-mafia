@@ -3,58 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1f1e1c">
+<meta name="theme-color" content="#3b2a6b">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <title>مافيا مغربية</title>
 <style>
-:root{--bg:#fff;--s:#f4f3ee;--t:#1f1e1c;--t2:#6b6a64;--b:#d9d7cf;--ac:#185FA5;--acb:#E6F1FB;--rd:#A32D2D;color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#1f1e1c;--s:#2c2b28;--t:#f1efe8;--t2:#b4b2a9;--b:#444441;--ac:#85B7EB;--acb:#0C447C;--rd:#F09595}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--t);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom));max-width:560px;margin-inline:auto}
-h1{font-size:22px;font-weight:500;margin:4px 0 10px}
-.card{background:var(--s);border:.5px solid var(--b);border-radius:12px;padding:12px;margin-bottom:10px}
-.s{color:var(--t2);font-size:13px;margin:4px 0}
-input{width:100%;padding:10px;margin:4px 0;border:.5px solid var(--b);border-radius:8px;background:var(--bg);color:var(--t);font:inherit}
-button,.btn{font:inherit;padding:9px 12px;border:.5px solid var(--b);border-radius:8px;background:var(--bg);color:var(--t);cursor:pointer;text-decoration:none;display:inline-block}
-button:disabled{opacity:.45;cursor:default}
-.pri{background:var(--ac);color:var(--bg);border-color:var(--ac)}
-.pl{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
-.chip{background:var(--acb);color:var(--ac);padding:3px 10px;border-radius:8px;font-size:14px}
-.dead{text-decoration:line-through;opacity:.5}
-#er{color:var(--rd);font-size:14px;margin:4px 0}
-#log{height:170px;overflow-y:auto;border:.5px solid var(--b);border-radius:8px;padding:6px 8px;background:var(--bg);font-size:14px}
-.msg{margin:2px 0}.mm{color:var(--rd)}
-.row{display:flex;gap:6px}.row input{margin:0}
-li{font-size:14px;margin:2px 0}
-details{font-size:14px}
+body{margin:0;min-height:100vh;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(28px,env(safe-area-inset-bottom));color:#fff;background:#3b2a6b;transition:background .6s}
+body[data-ph=lobby]{background:linear-gradient(160deg,#4a2c8a,#1d4e89)}
+body[data-ph=night]{background:linear-gradient(180deg,#080c2a,#1b1f4b)}
+body[data-ph=day]{background:linear-gradient(180deg,#1670b8,#3f9de0)}
+body[data-ph=end]{background:linear-gradient(160deg,#7a2e00,#c2410c)}
+.wrap{max-width:560px;margin:auto}
+h1{text-align:center;font-size:30px;margin:6px 0 12px}
+.card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:18px;padding:14px;margin-bottom:12px}
+.s{opacity:.85;font-size:14px;margin:4px 0}
+label{display:block;font-weight:600;margin-top:8px}
+input{width:100%;padding:12px;margin:4px 0;border:0;border-radius:12px;background:#fff;color:#1f1e1c;font:inherit}
+button{font:inherit;min-height:44px;padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}
+button:disabled{cursor:default}
+.pri{background:#ffd43b;color:#2b2200;border-color:#ffd43b;font-weight:700}
+.big{width:100%;min-height:52px;font-size:18px;margin-top:8px}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.row.c{align-items:center}
+.ban{text-align:center;font-size:20px;font-weight:700;background:rgba(0,0,0,.25);border-radius:14px;padding:10px;margin-bottom:10px}
+.b-night{background:#2d3a8c}.b-day{background:#e8a317;color:#2b2200}.b-end{background:#7a2e00}.b-inv{background:#0f766e}
+.role{display:flex;gap:14px;align-items:center}
+.big-e{font-size:56px;line-height:1}.rn{font-size:22px;font-weight:700}
+.r-m,.r-g{border-color:#ff6b6b;background:rgba(255,80,80,.22)}
+.r-d{border-color:#51cf66}.r-c{border-color:#74c0fc}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px}
+.pb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px}
+.pb:disabled{opacity:1}
+.pb.dead{opacity:.45}
+.pb.can{background:rgba(255,255,255,.3);border:2px solid #ffd43b}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff}
+.pn{font-weight:600;font-size:14px;word-break:break-word}.tg{font-size:13px;opacity:.9}
+.inv{text-align:center;margin:12px 0}
+.code{font:700 34px/1.2 monospace;letter-spacing:4px;background:rgba(0,0,0,.25);border-radius:12px;padding:6px;margin:6px 0}
+#er{text-align:center;font-weight:600;color:#ffd43b;min-height:0;margin:4px 0}
+#log{height:180px;overflow-y:auto;border-radius:12px;padding:8px;background:#fff;color:#1f1e1c;font-size:15px}
+.msg{margin:4px 0;padding:5px 10px;background:#eceff4;border-radius:12px;max-width:90%}
+.msg.me{background:#d3f9d8;margin-inline-start:auto}
+.mm{background:#ffe3e3!important;color:#8a1c1c}
+ul{padding-inline-start:20px}li{margin:3px 0}
+details summary{font-weight:700;cursor:pointer}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.18);color:#fff;padding:8px 14px;min-height:44px}
 </style>
 </head>
 <body>
-<h1>مافيا مغربية</h1>
+<div class="wrap">
+<h1>🎭 مافيا مغربية</h1>
 <p id="er"></p>
 <div id="join" class="card">
-<input id="nm" placeholder="اسمك" maxlength="14">
-<input id="cd" placeholder="رمز الغرفة (حروف وأرقام)" maxlength="10" dir="ltr">
-<div class="row" style="margin-top:6px"><button class="pri" onclick="enter(true)">إنشاء غرفة</button><button onclick="enter(false)">دخول غرفة</button></div>
-<p class="s">أنشئ غرفة بأي رمز وأرسله لأصدقائك. حتى 12 لاعبا، ويلزم 4 على الأقل.</p>
+<div class="ban">👋 العب مع أصدقائك أونلاين</div>
+<label>1️⃣ اسمك</label>
+<input id="nm" placeholder="مثلا: يوسف" maxlength="14">
+<label>2️⃣ رمز الغرفة</label>
+<input id="cd" placeholder="مثلا: agadir1" maxlength="10" dir="ltr">
+<button class="pri big" onclick="enter(true)">🏠 إنشاء غرفة جديدة</button>
+<button class="big" onclick="enter(false)">🚪 دخول غرفة صديق</button>
+<p class="s">من ينشئ الغرفة هو المضيف ويرسل الرمز لأصدقائه. من 4 إلى 12 لاعبا.</p>
 </div>
 <div id="app"></div>
 <div id="chat" class="card" style="display:none">
-<div class="row" style="justify-content:space-between;align-items:center"><b id="ch">الدردشة</b><a id="vc" class="btn" target="_blank" rel="noopener">غرفة صوتية</a></div>
-<div id="log" style="margin-top:6px"></div>
-<div class="row" style="margin-top:6px"><input id="ci" placeholder="اكتب رسالة" maxlength="200" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">إرسال</button></div>
+<div class="row c"><b id="ch">💬 الدردشة</b><a id="vc" class="btn" target="_blank" rel="noopener">🎙️ غرفة صوتية</a></div>
+<div id="log" style="margin-top:8px"></div>
+<div class="row" style="margin-top:8px"><input id="ci" placeholder="✍️ اكتب رسالة" maxlength="200" onkeydown="if(event.key==='Enter')sendChat()" style="margin:0"><button class="pri" style="flex:0 0 auto" onclick="sendChat()">إرسال</button></div>
 </div>
-<details class="card"><summary>قواعد اللعبة</summary>
+<details class="card"><summary>📖 قواعد اللعبة</summary>
 <ul>
-<li>الأدوار: مافيا، زعيم المافيا، طبيب، مفتش، ومواطنون.</li>
-<li>الليل: المافيا تختار ضحية، الطبيب ينقذ واحدا، المفتش يتحقق من لاعب. الزعيم يظهر للمفتش كأنه بريء.</li>
-<li>النهار: نقاش ثم تصويت. من يأخذ أكثر الأصوات يخرج ويُكشف دوره. التعادل يعني أن لا أحد يخرج.</li>
-<li>الأموات لا يتكلمون. في الليل لا يتكلم إلا فريق المافيا في قناته الخاصة.</li>
-<li>تفوز المواطنون إذا خرجت كل المافيا. وتفوز المافيا عندما يتساوى عددها مع عدد الباقين أو يزيد.</li>
-<li>الصوت: اضغط "غرفة صوتية" وادخلوا كلكم نفس الغرفة. اكتم نفسك عندما تموت أو في الليل.</li>
-<li>المضيف هو من يدير اللعبة، فلا يغلق الصفحة أثناء اللعب.</li>
+<li>🎭 الأدوار: 🔪 مافيا، 👑 زعيم المافيا، 🩺 طبيب، 🕵️ مفتش، 🙂 مواطنون.</li>
+<li>🌙 الليل: المافيا تختار ضحية، الطبيب ينقذ لاعبا، والمفتش يتحقق من لاعب. الزعيم يظهر للمفتش بريئا.</li>
+<li>☀️ النهار: نقاش ثم تصويت 🗳️. من يأخذ أكثر الأصوات يخرج ويُكشف دوره. التعادل = لا أحد يخرج.</li>
+<li>👻 الأموات لا يتكلمون. في الليل تتكلم المافيا فقط في قناتها.</li>
+<li>🏆 يفوز المواطنون إذا خرجت كل المافيا. وتفوز المافيا عندما يتساوى عددها مع الباقين.</li>
+<li>🎙️ للصوت: ادخلوا كلكم "غرفة صوتية". اكتم نفسك عندما تموت أو في الليل.</li>
+<li>👑 المضيف يدير اللعبة، فلا يغلق الصفحة أثناء اللعب.</li>
 </ul></details>
+</div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="config.js"></script>
@@ -87,7 +114,7 @@ async function enter(host){
       base.child('host').onDisconnect().remove();
     }else if(!hs.exists()){err('لا توجد غرفة بهذا الرمز.');return}
   }catch(e){err('تعذر الاتصال. تأكد من الإنترنت ومن قواعد Firebase.');return}
-  err('');amHost=host;reg();
+  err('');try{localStorage.setItem('nm',myName)}catch(e){}amHost=host;reg();
   db.ref('.info/connected').on('value',s=>{if(s.val()){reg();if(amHost){base.child('host').set(MID);base.child('host').onDisconnect().remove()}}});
   $('#join').style.display='none';$('#chat').style.display='block';
   $('#vc').href='https://meet.jit.si/mafia-'+code;
@@ -96,7 +123,7 @@ async function enter(host){
     PL=s.val()||{};
     if(isHost()&&PL[MID]&&(G.ph==='night'||G.ph==='day')){
       const gone=G.alive.filter(p=>!PL[p]);
-      if(gone.length){gone.forEach(p=>{kill(p);log((G.nm[p]||'لاعب')+' غادر اللعبة.')});after()}
+      if(gone.length){gone.forEach(p=>{kill(p);log('🚪 '+(G.nm[p]||'لاعب')+' غادر اللعبة.')});after()}
     }
     render();
   });
@@ -119,7 +146,7 @@ function start(){
   const mf=ids.filter(p=>isM(HR[p])),pv={};
   ids.forEach(p=>{pv[p]={r:HR[p]};if(isM(HR[p]))pv[p].team=mf});
   N={};V={};
-  G=norm({ph:'night',day:1,nm,alive:ids.slice(),log:['بدأت اللعبة. حلّ الليل...'],win:null});
+  G=norm({ph:'night',day:1,nm,alive:ids.slice(),log:['🌙 بدأت اللعبة. حلّ الليل...'],win:null});
   base.child('act').remove();
   base.child('priv').set(pv).then(pub);
 }
@@ -149,7 +176,7 @@ function kill(p){G.alive=G.alive.filter(x=>x!==p);G.rev[p]=HR[p]}
 function win(){
   const am=G.alive.filter(p=>isM(HR[p])).length,ac=G.alive.length-am;
   if(am===0)G.win='c';else if(am>=ac)G.win='m';
-  if(G.win){G.ph='end';G.rev=Object.assign({},HR);log(G.win==='m'?'فازت المافيا!':'فاز المواطنون!')}
+  if(G.win){G.ph='end';G.rev=Object.assign({},HR);log(G.win==='m'?'🏆 فازت المافيا!':'🏆 فاز المواطنون!')}
   return !!G.win;
 }
 function after(){if(win())pub();else checkDone()}
@@ -161,8 +188,8 @@ function resolveNight(){
   const u={};Object.keys(G.nm).forEach(p=>{u['priv/'+p+'/inv']=null});
   if(det&&N[det])u['priv/'+det+'/inv']={x:N[det],m:HR[N[det]]==='m'};
   base.update(u);
-  if(tg&&tg!==sv){kill(tg);log('قُتل '+G.nm[tg]+' في الليل وكان '+RN[HR[tg]]+'.')}
-  else log(tg?'حاولت المافيا القتل لكن الطبيب أنقذ الضحية!':'مرّت الليلة بسلام.');
+  if(tg&&tg!==sv){kill(tg);log('💀 قُتل '+G.nm[tg]+' في الليل وكان '+RN[HR[tg]]+'.')}
+  else log(tg?'🩺 حاولت المافيا القتل لكن الطبيب أنقذ الضحية!':'🌅 مرّت الليلة بسلام.');
   N={};G.done=[];base.child('act').remove();
   if(!win())G.ph='day';
   pub();
@@ -170,8 +197,8 @@ function resolveNight(){
 function resolveDay(){
   const t={};Object.values(V).forEach(x=>{if(x!=='x')t[x]=(t[x]||0)+1});
   const k=Object.keys(t).sort((a,b)=>t[b]-t[a]);
-  if(k.length&&(k.length===1||t[k[0]]>t[k[1]])){kill(k[0]);log('أُخرج '+G.nm[k[0]]+' بالتصويت وكان '+RN[HR[k[0]]]+'.')}
-  else log('لم يتفق الأغلبية على أحد، لم يخرج أحد.');
+  if(k.length&&(k.length===1||t[k[0]]>t[k[1]])){kill(k[0]);log('🗳️ أُخرج '+G.nm[k[0]]+' بالتصويت وكان '+RN[HR[k[0]]]+'.')}
+  else log('🤷 لم يتفق الجميع على أحد، لم يخرج أحد.');
   V={};G.done=[];base.child('act').remove();
   if(!win()){G.ph='night';G.day++}
   pub();
@@ -186,7 +213,7 @@ function canTalk(p,c){
 }
 function addChat(d){
   if(!d||typeof d.t!=='string'||!canTalk(d.p,d.c))return;
-  const e=document.createElement('p');e.className='msg'+(d.c==='m'?' mm':'');
+  const e=document.createElement('p');e.className='msg'+(d.c==='m'?' mm':'')+(d.p===MID?' me':'');
   const b=document.createElement('b');b.textContent=String(d.n||'').slice(0,14)+': ';
   e.append(b,document.createTextNode(d.t.slice(0,200)));
   const l=$('#log');l.append(e);while(l.children.length>80)l.firstChild.remove();l.scrollTop=l.scrollHeight;
@@ -196,47 +223,60 @@ function sendChat(){
   const c=G.ph==='night'?'m':'a';if(!canTalk(MID,c))return;
   base.child('chat').push({n:myName,t:t.slice(0,200),c,p:MID});i.value='';
 }
+const RE={m:'🔪',g:'👑',d:'🩺',c:'🕵️',v:'🙂'};
+const hue=t=>{let h=0;for(const c of String(t))h=(h*31+c.charCodeAt(0))%360;return h};
+const tile=(name,id,cls,tag,on)=>'<button class="pb '+cls+'" '+(on?'onclick="'+on+'"':'disabled')+'><span class="av" style="background:hsl('+hue(id)+',60%,45%)">'+esc([...name][0]||'?')+'</span><span class="pn">'+esc(name)+'</span><span class="tg">'+tag+'</span></button>';
+function inv(){
+  const u=location.origin+location.pathname+'?room='+code;
+  const t='تعال نلعبو مافيا مغربية 🎭\nالرابط: '+u+'\nرمز الغرفة: '+code;
+  if(navigator.share){navigator.share({text:t}).catch(()=>{})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>err('✅ تم نسخ الدعوة، الصقها في واتساب'))}
+  else err(t);
+}
 function render(){
+  document.body.dataset.ph=base?G.ph:'lobby';
   if(!base)return;
   const ph=G.ph;let h='';
   if(ph==='lobby'){
     const ids=Object.keys(PL).slice(0,12);
-    h+='<div class="card"><b>اللاعبون ('+ids.length+'/12)</b><div class="pl">'+ids.map(p=>'<span class="chip">'+esc(PL[p].n)+(p===hostId?' · المضيف':'')+(p===MID?' · أنت':'')+'</span>').join('')+'</div>';
-    h+=isHost()?'<button class="pri" onclick="start()">ابدأ اللعبة</button><p class="s">يلزم 4 لاعبين على الأقل. أرسل رمز الغرفة ('+esc(code)+') لأصدقائك.</p>':(hostId?'<p class="s">في انتظار المضيف ليبدأ اللعبة.</p>':'<p class="s">المضيف غير متصل حاليا.</p>');
+    h+='<div class="card"><div class="ban">👥 اللاعبون '+ids.length+'/12</div><div class="grid">'+ids.map(p=>tile(PL[p].n+(p===MID?' (أنت)':''),p,'',p===hostId?'👑 المضيف':'🟢 جاهز',null)).join('')+'</div>';
+    h+='<div class="inv">🔑 رمز الغرفة<div class="code">'+esc(code)+'</div><button onclick="inv()">📲 دعوة الأصدقاء</button></div>';
+    h+=isHost()?'<button class="pri big" onclick="start()">🚀 ابدأ اللعبة</button><p class="s">يلزم 4 لاعبين على الأقل.</p>':(hostId?'<div class="ban">⏳ في انتظار المضيف ليبدأ اللعبة</div>':'<div class="ban">⚠️ المضيف غير متصل حاليا</div>');
     h+='</div>';
   }else{
     const r=PV.r,al=G.alive.includes(MID),team=PV.team||[];
-    const ttl=ph==='end'?(G.win==='m'?'فازت المافيا':'فاز المواطنون'):ph==='night'?'الليلة '+G.day:'النهار '+G.day;
-    h+='<div class="card"><b>'+ttl+'</b>';
-    if(r){h+='<p>دورك: <b>'+RN[r]+'</b>'+(al?'':' (خرجت من اللعبة)')+'</p><p class="s">'+DS[r]+'</p>';
-      if(team.length)h+='<p class="s">فريق المافيا: '+team.map(p=>esc(G.nm[p]||'')).join('، ')+'</p>'}
-    let mode=null,pr='';
+    const bn=ph==='end'?(G.win==='m'?'🏆 فازت المافيا 🔪':'🏆 فاز المواطنون 🎉'):ph==='night'?'🌙 الليلة '+G.day:'☀️ النهار '+G.day;
+    h+='<div class="ban b-'+ph+'">'+bn+'</div>';
+    if(r)h+='<div class="card role r-'+r+'"><div class="big-e">'+RE[r]+'</div><div><div class="rn">'+RN[r]+(al?'':' 💀')+'</div><div class="s">'+DS[r]+'</div>'+(team.length?'<div class="s">🔪 فريقك: '+team.map(p=>esc(G.nm[p]||'')).join('، ')+'</div>':'')+'</div></div>';
+    let mode=null,pr='',ae='🗳️';
     if(al&&ph==='night'){
-      if(r==='v')pr='أنت نائم... انتظر الصباح.';
-      else if(G.done.includes(MID))pr='تم اختيارك. في انتظار الباقي...';
-      else{mode='n';pr={m:'اختر من تقتل',g:'اختر من تقتل',d:'اختر من تنقذ',c:'اختر من تتحقق منه'}[r]||''}
+      if(r==='v')pr='😴 أنت نائم... انتظر الصباح';
+      else if(G.done.includes(MID))pr='⏳ تم اختيارك. في انتظار الباقي...';
+      else{mode='n';pr={m:'🔪 اختر من تقتل',g:'🔪 اختر من تقتل',d:'💉 اختر من تنقذ',c:'🔍 اختر من تتحقق منه'}[r]||'';ae={m:'🔪',g:'🔪',d:'💉',c:'🔍'}[r]}
     }else if(al&&ph==='day'){
-      if(G.done.includes(MID))pr='صوّتَّ. في انتظار الباقي...';else{mode='v';pr='صوّت لمن تظنه من المافيا'}
-    }else if(!al&&ph!=='end')pr='أنت خارج اللعبة. تابع بصمت.';
-    if(pr)h+='<p><b>'+pr+'</b></p>';
-    if(PV.inv&&ph==='day')h+='<p>نتيجة التحقيق: '+esc(G.nm[PV.inv.x]||'')+(PV.inv.m?' من المافيا.':' ليس من المافيا.')+'</p>';
-    h+='<div class="pl">'+Object.keys(G.nm).map(p=>{
+      if(G.done.includes(MID))pr='✅ صوّتَّ. في انتظار الباقي...';else{mode='v';pr='🗳️ صوّت لمن تظنه من المافيا'}
+    }else if(!al&&ph!=='end')pr='👻 أنت خارج اللعبة. تابع بصمت';
+    h+='<div class="card">';
+    if(pr)h+='<div class="ban">'+pr+'</div>';
+    if(PV.inv&&ph==='day')h+='<div class="ban b-inv">🔍 نتيجة التحقيق: '+esc(G.nm[PV.inv.x]||'')+(PV.inv.m?' من المافيا 🔪':' ليس من المافيا ✅')+'</div>';
+    h+='<div class="grid">'+Object.keys(G.nm).map(p=>{
       const live=G.alive.includes(p);
       const can=mode&&live&&!(mode==='n'&&((r==='c'&&p===MID)||team.includes(p)))&&!(mode==='v'&&p===MID);
       const rv=G.rev[p];
-      const lab=esc(G.nm[p])+(rv?' ('+RN[rv]+')':'');
-      return '<button class="'+(live?'':'dead')+'" '+(can?'onclick="act(\''+mode+'\',\''+esc(p)+'\')"':'disabled')+'>'+lab+'</button>';
+      let tag=!live?'💀 '+(RN[rv]||''):can?ae+' اضغط':(ph==='end'&&rv?RE[rv]+' '+RN[rv]:(ph==='day'&&G.done.includes(p)?'✅ صوّت':'🟢 حي'));
+      return tile(G.nm[p]+(p===MID?' (أنت)':''),p,(live?'':'dead ')+(can?'can':''),tag,can?"act('"+mode+"','"+esc(p)+"')":null);
     }).join('')+'</div>';
-    if(mode==='v')h+='<button onclick="act(\'v\',\'x\')">امتنع عن التصويت</button> ';
-    if(isHost()&&(ph==='night'||ph==='day'))h+='<button onclick="force()">حسم الآن</button>';
-    if(isHost()&&ph==='end')h+='<button class="pri" onclick="again()">لعبة جديدة</button>';
-    h+='</div><div class="card"><b>ما حدث</b><ul>'+G.log.slice().reverse().map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>';
+    if(mode==='v')h+='<button class="big" onclick="act(\'v\',\'x\')">🤐 امتنع عن التصويت</button>';
+    if(isHost()&&(ph==='night'||ph==='day'))h+='<button class="big" onclick="force()">⏩ حسم الآن (للمضيف)</button>';
+    if(isHost()&&ph==='end')h+='<button class="pri big" onclick="again()">🔄 لعبة جديدة</button>';
+    h+='</div><div class="card"><div class="ban">📜 ما حدث</div><ul>'+G.log.slice().reverse().map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>';
   }
   $('#app').innerHTML=h;
   const ok=canTalk(MID,G.ph==='night'?'m':'a');
   $('#ci').disabled=!ok;
-  $('#ch').textContent=G.ph==='night'?(ok?'قناة المافيا (الليل)':'الليل: لا أحد يتكلم'):(ok?'الدردشة':'الأموات لا يتكلمون');
+  $('#ch').textContent=G.ph==='night'?(ok?'🔪 قناة المافيا (الليل)':'🌙 الليل: لا أحد يتكلم'):(ok?'💬 الدردشة':'👻 الأموات لا يتكلمون');
 }
+try{const q=new URLSearchParams(location.search).get('room');if(q)$('#cd').value=q;const n=localStorage.getItem('nm');if(n)$('#nm').value=n}catch(e){}
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
