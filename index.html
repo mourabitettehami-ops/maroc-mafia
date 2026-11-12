@@ -67,7 +67,7 @@ const isM=r=>r==='m'||r==='g';
 let MID=null;try{MID=localStorage.getItem('mid')}catch(e){}
 if(!MID){MID=Math.random().toString(36).slice(2,12);try{localStorage.setItem('mid',MID)}catch(e){}}
 let db=null;try{firebase.initializeApp(window.FB_CONFIG);db=firebase.database()}catch(e){}
-let base=null,G={ph:'lobby'},PL={},PV={},hostId=null,myName='',code='',HR={},N={},V={};
+let amHost=false,base=null,G={ph:'lobby'},PL={},PV={},hostId=null,myName='',code='',HR={},N={},V={};
 const isHost=()=>hostId===MID;
 const err=t=>{$('#er').textContent=t||''};
 const norm=g=>{g=g||{ph:'lobby'};g.alive=g.alive||[];g.done=g.done||[];g.log=g.log||[];g.rev=g.rev||{};g.nm=g.nm||{};return g};
@@ -87,8 +87,8 @@ async function enter(host){
       base.child('host').onDisconnect().remove();
     }else if(!hs.exists()){err('لا توجد غرفة بهذا الرمز.');return}
   }catch(e){err('تعذر الاتصال. تأكد من الإنترنت ومن قواعد Firebase.');return}
-  err('');reg();
-  db.ref('.info/connected').on('value',s=>{if(s.val())reg()});
+  err('');amHost=host;reg();
+  db.ref('.info/connected').on('value',s=>{if(s.val()){reg();if(amHost){base.child('host').set(MID);base.child('host').onDisconnect().remove()}}});
   $('#join').style.display='none';$('#chat').style.display='block';
   $('#vc').href='https://meet.jit.si/mafia-'+code;
   base.child('host').on('value',s=>{hostId=s.val();render()});
