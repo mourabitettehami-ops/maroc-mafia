@@ -285,7 +285,7 @@ function nextSpeaker(){
   if(nx){G.sp=nx;tmr(60000,nextSpeaker);pub()}else startVote();
 }
 function startVote(){G.ph='vote';G.sp=null;G.vt={};G.done=[];tmr(60000,endVote);pub()}
-function top(){
+function topVote(){
   const c={};Object.keys(G.vt).forEach(v=>{const x=G.vt[v];if(x!=='x'&&G.alive.includes(x)&&G.alive.includes(v))c[x]=(c[x]||0)+1});
   const k=Object.keys(c).sort((a,b)=>c[b]-c[a]);
   return k.length&&(k.length===1||c[k[0]]>c[k[1]])?k[0]:null;
@@ -293,7 +293,7 @@ function top(){
 function checkVote(){if(G.alive.every(p=>G.vt[p]))endVote();else pub()}
 function endVote(){
   if(G.ph!=='vote')return;
-  const a=top();
+  const a=topVote();
   if(a){G.acc=a;G.ph='def';logk('acc',{n:G.nm[a]});tmr(60000,startRev);pub()}
   else{logk('noel');nextDay()}
 }
@@ -301,7 +301,7 @@ function startRev(){if(G.ph!=='def')return;G.ph='rev';G.done=[];tmr(45000,endRev
 function checkRev(){if(G.alive.every(p=>G.done.includes(p)))endRev();else pub()}
 function endRev(){
   if(G.ph!=='rev')return;
-  const a=top();
+  const a=topVote();
   if(a){kill(a);logk('exec',{n:G.nm[a],r:HR[a]})}else logk('noel');
   nextDay();
 }
