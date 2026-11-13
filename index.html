@@ -55,7 +55,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 <body>
 <div class="wrap">
 <h1>🎭 مافيا مغربية</h1>
-<p id="er"></p>
+<p id="er" data-nt></p>
 <div id="join" class="card">
 <div class="ban">👋 العب مع أصدقائك أونلاين</div>
 <label>1️⃣ اسمك</label>
@@ -65,12 +65,11 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 <button class="pri big" onclick="enter(true)">🏠 إنشاء غرفة جديدة</button>
 <button class="big" onclick="enter(false)">🚪 دخول غرفة صديق</button>
 <p class="s">من ينشئ الغرفة هو المضيف ويرسل الرمز لأصدقائه. من 4 إلى 12 لاعبا.</p>
-<a class="btn big" href="ghost.html" style="margin-top:12px">👻 العب لعبة الهروب من الشبح</a>
 </div>
-<div id="app"></div>
+<div id="app" data-nt></div>
 <div id="chat" class="card" style="display:none">
-<div class="row c"><b id="ch">💬 الدردشة</b><a id="vc" class="btn" target="_blank" rel="noopener">🎙️ غرفة صوتية</a></div>
-<div id="log" style="margin-top:8px"></div>
+<div class="row c"><b id="ch" data-nt>💬 الدردشة</b><a id="vc" class="btn" target="_blank" rel="noopener">🎙️ غرفة صوتية</a></div>
+<div id="log" data-nt style="margin-top:8px"></div>
 <div class="row" style="margin-top:8px"><input id="ci" placeholder="✍️ اكتب رسالة" maxlength="200" onkeydown="if(event.key==='Enter')sendChat()" style="margin:0"><button class="pri" style="flex:0 0 auto" onclick="sendChat()">إرسال</button></div>
 </div>
 <details class="card"><summary>📖 قواعد اللعبة</summary>
@@ -87,6 +86,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="config.js"></script>
+<script src="i18n.js"></script>
 <script>
 const $=s=>document.querySelector(s);
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -98,7 +98,7 @@ if(!MID){MID=Math.random().toString(36).slice(2,12);try{localStorage.setItem('mi
 let db=null;try{firebase.initializeApp(window.FB_CONFIG);db=firebase.database()}catch(e){}
 let amHost=false,base=null,G={ph:'lobby'},PL={},PV={},hostId=null,myName='',code='',HR={},N={},V={};
 const isHost=()=>hostId===MID;
-const err=t=>{$('#er').textContent=t||''};
+const err=t=>{$('#er').textContent=tr(t||'')};
 const norm=g=>{g=g||{ph:'lobby'};g.alive=g.alive||[];g.done=g.done||[];g.log=g.log||[];g.rev=g.rev||{};g.nm=g.nm||{};return g};
 G=norm(G);
 function reg(){if(!base)return;const m=base.child('players/'+MID);m.set({n:myName});m.onDisconnect().remove()}
@@ -260,8 +260,8 @@ const tile=(name,id,cls,tag,on)=>'<button class="pb '+cls+'" '+(on?'onclick="'+o
 function inv(){
   const u=location.origin+location.pathname+'?room='+code;
   const t='تعال نلعبو مافيا مغربية 🎭\nالرابط: '+u+'\nرمز الغرفة: '+code;
-  if(navigator.share){navigator.share({text:t}).catch(()=>{})}
-  else if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>err('✅ تم نسخ الدعوة، الصقها في واتساب'))}
+  if(navigator.share){navigator.share({text:tr(t)}).catch(()=>{})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(tr(t)).then(()=>err('✅ تم نسخ الدعوة، الصقها في واتساب'))}
   else err(t);
 }
 function votesCard(){
@@ -326,15 +326,16 @@ function render(){
     if(mode==='v')h+='<button class="big" onclick="act(\'v\',\'x\')">🤐 امتنع عن التصويت</button>';
     if(isHost()&&['night','talk','day','def','jdg'].includes(ph))h+='<button class="big" onclick="force()">⏩ حسم الآن (للمضيف)</button>';
     if(isHost()&&ph==='end')h+='<button class="pri big" onclick="again()">🔄 لعبة جديدة</button>';
-    h+='</div>'+votesCard()+'<div class="card"><div class="ban">📜 ما حدث</div><ul>'+G.log.slice().reverse().map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>';
+    h+='</div>'+votesCard()+'<div class="card"><div class="ban">📜 ما حدث</div><ul>'+G.log.slice().reverse().map(x=>'<li>'+esc(trLog(x))+'</li>').join('')+'</ul></div>';
   }
-  $('#app').innerHTML=h;
+  $('#app').innerHTML=tr(h);
   const ok=canTalk(MID,G.ph==='night'?'m':'a');
   $('#ci').disabled=!ok;
-  $('#ch').textContent=G.ph==='def'?(MID===G.acc&&ok?'🗣️ دافع عن نفسك':'🤫 اسمع الدفاع'):G.ph==='night'?(ok?'🔪 قناة المافيا (الليل)':'🌙 الليل: لا أحد يتكلم'):(ok?'💬 الدردشة':'👻 الأموات لا يتكلمون');
+  $('#ch').textContent=tr(G.ph==='def'?(MID===G.acc&&ok?'🗣️ دافع عن نفسك':'🤫 اسمع الدفاع'):G.ph==='night'?(ok?'🔪 قناة المافيا (الليل)':'🌙 الليل: لا أحد يتكلم'):(ok?'💬 الدردشة':'👻 الأموات لا يتكلمون'));
 }
 try{const q=new URLSearchParams(location.search).get('room');if(q)$('#cd').value=q;const n=localStorage.getItem('nm');if(n)$('#nm').value=n}catch(e){}
-setInterval(()=>{const e=document.getElementById('tm');if(e&&G.dl)e.textContent='⏳ '+Math.max(0,Math.ceil((G.dl-Date.now())/1000))+' ثانية'},500);
+setInterval(()=>{const e=document.getElementById('tm');if(e&&G.dl)e.textContent=tr('⏳ '+Math.max(0,Math.ceil((G.dl-Date.now())/1000))+' ثانية')},500);
+window.onLang=()=>{render()};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
